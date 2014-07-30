@@ -1,9 +1,9 @@
-﻿window.App = Ember.Application.create();
+﻿var App = Ember.Application.create();
 
-App.Store = DS.Store.extend({
-    revision: 12,
+App.ApplicationAdapter = DS.FixtureAdapter;
+/*App.Store = DS.Store.extend({
     adapter: 'DS.FixtureAdapter'
-});
+});*/
 
 App.Person = DS.Model.extend({
     name: DS.attr('string'),

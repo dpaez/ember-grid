@@ -1,0 +1,24 @@
+{
+  "name": "ember-grid",
+  "version": "1.0.0",
+  "homepage": "https://github.com/dpaez/ember-grid",
+  "authors": [
+    "TRAMA"
+  ],
+  "description": "ember grid plugin",
+  "main": "src/ember-grid.js",
+  "keywords": [
+    "ember",
+    "grid",
+    "plugin"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
