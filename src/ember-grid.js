@@ -432,7 +432,7 @@ GRID.PageView = Ember.View.extend({
     var limit = this.get('controller.limit');
     var length = this.get('controller.filteredContent.length');
     this.set('first', page * limit + 1);
-    this.set('last', ((page * limit + 1) + limit));
+    this.set('last', ((page * limit) + limit));
     this.set('amount', this.getWithDefault('controller.meta.total', length));
     if ( this.get('controller.initialOffset') ){
       var offPage = (this.get('controller.initialOffset') / 10);
@@ -471,5 +471,5 @@ GRID.ColumnSelector = Ember.View.extend({
 GRID.Filter = Ember.View.extend({
   tagName: 'form',
   classNames: ['form-search', 'btn-group', 'table-filter'],
-  defaultTemplate: Ember.Handlebars.compile('{{view Ember.TextField class="search-query input-medium" placeholder="Buscar pacientes..." valueBinding="query"}}')
+  defaultTemplate: Ember.Handlebars.compile('{{view Ember.TextField class="search-query input-medium" placeholder="Filtrar..." valueBinding="query"}}')
 });
