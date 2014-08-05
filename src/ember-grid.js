@@ -70,28 +70,28 @@ GRID.PaginatedMixin = Ember.Mixin.create({
   firstPage: function () {
     this.set('page', 0);
     if (this.get('pageRouteName')){
-      this.transitionToRoute("patients.listar", {'offset': this.getOffset()});
+      this.transitionToRoute(this.get('pageRouteName'), {'offset': this.getOffset()});
     }
   },
 
   previousPage: function () {
     this.set('page', Math.max( this.get('page') - 1, 0 ));
     if (this.get('pageRouteName')){
-      this.transitionToRoute("patients.listar", {'offset': this.getOffset()});
+      this.transitionToRoute(this.get('pageRouteName'), {'offset': this.getOffset()});
     }
   },
 
   nextPage: function () {
     this.set('page', Math.min( this.get('page') + 1, this.get('pages') - 1 ));
     if (this.get('pageRouteName')){
-      this.transitionToRoute("patients.listar", {'offset': this.getOffset()});
+      this.transitionToRoute(this.get('pageRouteName'), {'offset': this.getOffset()});
     }
   },
 
   lastPage: function () {
     this.set('page', this.get('pages') - 1);
     if (this.get('pageRouteName')){
-      this.transitionToRoute("patients.listar", {'offset': this.getOffset()});
+      this.transitionToRoute(this.get('pageRouteName'), {'offset': this.getOffset()});
     }
   }
 
@@ -104,6 +104,8 @@ GRID.TableController = Ember.ArrayProxy.extend(Ember.ControllerMixin, Ember.Sort
   paginableContentBinding: 'filteredContent',
 
   rowsBinding: 'paginatedContent',
+
+  pageSearchName: 'search',
 
   queryProperties: function () {
     if (!this.get('visibleColumns')) return [];
@@ -472,4 +474,47 @@ GRID.Filter = Ember.View.extend({
   tagName: 'form',
   classNames: ['form-search', 'btn-group', 'table-filter'],
   defaultTemplate: Ember.Handlebars.compile('{{view Ember.TextField class="search-query input-medium" placeholder="Filtrar..." valueBinding="query"}}')
+});
+
+GRID.ColumnServerSearch = Ember.View.extend({
+  tagName: 'form',
+  classNames: ['form-search', 'server-filter'],
+  defaultTemplate: Ember.Handlebars.compile(
+    '{{#each columns}}' +
+    '<span class="column-search-item">' +
+    '<label class="input"> {{header}}: {{ view Ember.TextField name=header viewName="textField" }} </label>' +
+    '</span>' +
+    '{{/each}}' +
+    '<button class="btn btn-submit" name="column-server-search"> Buscar </button>'
+  ),
+  submit: function( event ){
+    event.stopPropagation();
+    event.preventDefault();
+    var target = event.currentTarget || false;
+    var elem;
+    var req = {};
+    if (!target) return false;
+    req.type = this.get('controller.modelType');
+    for (var i=0; i<target.length-1; i++){
+      elem = target[ i ];
+      if ( elem && typeof elem.name === 'string' ){
+        req[ elem.name.toLowerCase() ] = elem.value;
+      }
+    }
+
+    //this.get('controller').transitionToRoute(this.get('controller.pageSearchName'), { 'data': JSON.stringify(req) });
+    var self = this;
+    Ember.$.ajax({
+      url: this.get('controller.pageSearchName'),
+      data: req,
+      success: function(){ console.log('success'); }
+    })
+    .done(function( result ){
+      console.log( 'done -> result: ', result );
+      self.get('controller').set('content', result );
+    })
+    .fail(function( reason ){
+      console.log('fail -> reason: ', reason);
+    });
+  }
 });
