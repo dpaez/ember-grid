@@ -489,7 +489,7 @@ GRID.ColumnServerSearch = Ember.View.extend({
     '{{#each columns}}' +
     '{{#if searchable }}' +
     '<span class="column-search-item">' +
-    '<label class="input"> {{header}}: {{ view Ember.TextField name=header viewName="textField" }} </label>' +
+    '<label> {{header}}: {{ view Ember.TextField name=header viewName="textField" classNames="column-search-control"}} </label>' +
     '</span>' +
     '{{/if}}' +
     '{{/each}}' +
