@@ -149,9 +149,15 @@ GRID.Column = Ember.Object.extend({
   visible: function () {
     return this.get('display') !== false;
   }.property('display'),
+
   always: function () {
     return this.get('display') === 'always';
   }.property('display'),
+
+  search: false,
+  searchable: function(){
+    return this.get('search') !== false;
+  }.property('search'),
 
   formatter: '{{view.content.%@}}',
   viewClass: function () {
@@ -481,9 +487,11 @@ GRID.ColumnServerSearch = Ember.View.extend({
   classNames: ['form-search', 'server-filter'],
   defaultTemplate: Ember.Handlebars.compile(
     '{{#each columns}}' +
+    '{{#if searchable }}' +
     '<span class="column-search-item">' +
     '<label class="input"> {{header}}: {{ view Ember.TextField name=header viewName="textField" }} </label>' +
     '</span>' +
+    '{{/if}}' +
     '{{/each}}' +
     '<button class="btn btn-submit" name="column-server-search"> Buscar </button>'
   ),
@@ -503,18 +511,6 @@ GRID.ColumnServerSearch = Ember.View.extend({
     }
 
     this.get('controller').transitionToRoute(this.get('controller.pageSearchName'), { 'data': JSON.stringify(req) });
-    /*var self = this;
-    Ember.$.ajax({
-      url: this.get('controller.pageSearchName'),
-      data: req,
-      success: function(){ console.log('success'); }
-    })
-    .done(function( result ){
-      console.log( 'done -> result: ', result );
-      self.get('controller').set('content', result );
-    })
-    .fail(function( reason ){
-      console.log('fail -> reason: ', reason);
-    });*/
+
   }
 });
