@@ -1,6 +1,6 @@
 ﻿App.Router.map(function(){
 
-  this.route('search', {path:'/search/*data'});
+  this.route('search', {path:'/search/:data'});
 
 });
 
@@ -19,19 +19,20 @@ App.SearchRoute = Ember.Route.extend({
   queryParams:['data'],
   model: function ( params ) {
     var data = params.data || {};
-    return data;
+    return JSON.parse(data);
     //return this.store.findQuery('person', data);
   },
-  serialize: function( params ){
+  /*serialize: function( params ){
     return {'name': params.name, 'age': params.age};
-  },
+  },*/
   setupController: function (controller, model) {
     var query = model.data || {};
     var doneFn = function( result ){
       this.controller.set( 'content', result );
     };
     // TODO: check this -> Ember.$.getJSON
-    this.store.find('person', query).then( doneFn );
+    console.log(query);
+    this.store.find('person', {query: query}).then( doneFn );
     // controller.set('initialOffset', 0); // optional, set offset, for server-side pagination
     // controller.set('meta', this.store.metadataFor('person'));  // optional, set metadata
   },

@@ -494,7 +494,7 @@ GRID.ColumnServerSearch = Ember.View.extend({
     var elem;
     var req = {};
     if (!target) return false;
-    req.type = this.get('controller.modelType');
+    //req.type = this.get('controller.modelType');
     for (var i=0; i<target.length-1; i++){
       elem = target[ i ];
       if ( elem && typeof elem.name === 'string' ){
@@ -502,8 +502,8 @@ GRID.ColumnServerSearch = Ember.View.extend({
       }
     }
 
-    //this.get('controller').transitionToRoute(this.get('controller.pageSearchName'), { 'data': JSON.stringify(req) });
-    var self = this;
+    this.get('controller').transitionToRoute(this.get('controller.pageSearchName'), { 'data': JSON.stringify(req) });
+    /*var self = this;
     Ember.$.ajax({
       url: this.get('controller.pageSearchName'),
       data: req,
@@ -515,6 +515,6 @@ GRID.ColumnServerSearch = Ember.View.extend({
     })
     .fail(function( reason ){
       console.log('fail -> reason: ', reason);
-    });
+    });*/
   }
 });
