@@ -55,7 +55,7 @@ App.IndexController = GRID.TableController.extend({
   ],
 
   columns: [
-  GRID.column('name', { display: 'always', search:true }),
+  GRID.column('name', { display: 'always', search:true, placeholder:'Buscar por Nombre...' }),
   GRID.column('age', {search: true})
   ],
   actions:{

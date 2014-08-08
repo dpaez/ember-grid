@@ -159,6 +159,11 @@ GRID.Column = Ember.Object.extend({
     return this.get('label') !== false;
   }.property('label'),
 
+  placeholder: '',
+  placeholderVal: function(){
+    return this.get('placeholder');
+  }.property('placeholder'),
+
   search: false,
   searchable: function(){
     return this.get('search') !== false;
@@ -495,7 +500,7 @@ GRID.ColumnServerSearch = Ember.View.extend({
     '{{#if searchable }}' +
     '<span class="column-search-item">' +
     '{{#if labelable }} <label>{{header}}: {{/if}}' +
-    '{{ view Ember.TextField name=header viewName=header valueBinding="content.data" classNames="column-search-control"}} ' +
+    '{{ view Ember.TextField name=header viewName=header valueBinding="content.data" classNames="column-search-control" placeholder=placeholderVal}} ' +
     '{{#if labelable }}</label>{{/if}}' +
     '</span>' +
     '{{/if}}' +
