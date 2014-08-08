@@ -56,7 +56,7 @@ App.IndexController = GRID.TableController.extend({
 
   columns: [
   GRID.column('name', { display: 'always', search:true }),
-  GRID.column('age')
+  GRID.column('age', {search: true})
   ],
   actions:{
     updateContent: function( data ){
