@@ -208,7 +208,8 @@ GRID.column = function (property, options) {
 
 GRID.TableView = Ember.View.extend({
   classNames: ['ember-grid'],
-  defaultTemplate: Ember.Handlebars.compile('{{view GRID.ToolbarView}}{{view GRID.InnerTableView}}{{view GRID.FooterView}}')
+  silent: false,
+  defaultTemplate: Ember.Handlebars.compile('{{view GRID.ToolbarView}} {{#unless view.silent}} {{view GRID.InnerTableView}}{{view GRID.FooterView}} {{/unless}}')
 });
 
 GRID.ToolbarView = Ember.ContainerView.extend({
