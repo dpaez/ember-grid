@@ -103,6 +103,8 @@ GRID.TableController = Ember.ArrayProxy.extend(Ember.ControllerMixin, Ember.Sort
 
   paginableContentBinding: 'filteredContent',
 
+  contentBinding: 'content',
+
   rowsBinding: 'paginatedContent',
 
   pageSearchName: 'search',
@@ -208,8 +210,12 @@ GRID.column = function (property, options) {
 
 GRID.TableView = Ember.View.extend({
   classNames: ['ember-grid'],
-  silent: false,
-  defaultTemplate: Ember.Handlebars.compile('{{view GRID.ToolbarView}} {{#unless view.silent}} {{view GRID.InnerTableView}}{{view GRID.FooterView}} {{/unless}}')
+  defaultTemplate: Ember.Handlebars.compile('{{view GRID.ToolbarView}} {{#if controller.content}} {{view GRID.InnerTableView}}{{view GRID.FooterView}} {{/if}}')
+});
+
+GRID.TableContentView = Ember.View.extend({
+  classNames: ['ember-grid'],
+  defaultTemplate: Ember.Handlebars.compile('{{view GRID.InnerTableView}}{{view GRID.FooterView}}')
 });
 
 GRID.ToolbarView = Ember.ContainerView.extend({
@@ -222,6 +228,7 @@ GRID.InnerTableView = Ember.View.extend({
   tagName: 'table',
   classNames: ['table', 'table-condensed'],
   attributeBindings: ['style'],
+  contentBinding: 'content',
   style: 'margin: 0;',
   defaultTemplate: Ember.Handlebars.compile('<thead>{{view GRID.HeaderView}}</thead>{{view GRID.BodyView}}')
 });
@@ -255,7 +262,7 @@ GRID.BodyView = Ember.CollectionView.extend({
   itemViewClass: 'GRID.RowView',
   emptyView: Ember.View.extend({
     tagName: 'tr',
-    template: Ember.Handlebars.compile('<td {{bindAttr colspan="controller.columns.length"}} class="muted">Nothing to display.</td>')
+    template: Ember.Handlebars.compile('<td {{bindAttr colspan="controller.columns.length"}} class="muted"></td>')
   }),
   didInsertElement: function(){
     if ( this.get('controller').on ){
